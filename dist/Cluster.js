@@ -408,6 +408,63 @@ class Cluster extends events_1.EventEmitter {
         }
         display.resetCursor();
     }
+    getMonitorData(){
+        const monitordata = [];
+
+        const now = Date.now();
+        const timeDiff = now - this.startTime;
+
+        const doneTargets = this.allTargetCount - this.jobQueue.size() - this.workersBusy.length;
+        const donePercentage = this.allTargetCount === 0
+            ? 1 : (doneTargets / this.allTargetCount);
+        const donePercStr = (100 * donePercentage).toFixed(2);
+
+        const errorPerc = doneTargets === 0 ?
+            '0.00' : (100 * this.errorCount / doneTargets).toFixed(2);
+
+        const timeRunning = util.formatDuration(timeDiff);
+
+        let timeRemainingMillis = -1;
+        if (donePercentage !== 0) {
+            timeRemainingMillis = ((timeDiff) / donePercentage) - timeDiff;
+        }
+        const timeRemining = util.formatDuration(timeRemainingMillis);
+
+        const cpuUsage = this.systemMonitor.getCpuUsage().toFixed(1);
+        const memoryUsage = this.systemMonitor.getMemoryUsage().toFixed(1);
+
+        const pagesPerSecond = doneTargets === 0 ?
+            '0' : (doneTargets * 1000 / timeDiff).toFixed(2);
+
+        monitordata.push(`Start: ${util.formatDateTime(this.startTime)}`);
+        monitordata.push(`Now: ${util.formatDateTime(now)} (running for ${timeRunning})`);
+        monitordata.push(`Progress:  ${doneTargets} / ${this.allTargetCount} (${donePercStr}%)`
+            + `, errors: ${this.errorCount} (${errorPerc}%)`);
+        monitordata.push(`Remaining: ${timeRemining} (@ ${pagesPerSecond} pages/second)`);
+        monitordata.push(`Sys. load: ${cpuUsage}% CPU / ${memoryUsage}% memory`);
+        monitordata.push(`Workers:   ${this.workers.length + this.workersStarting}`);
+
+        this.workers.forEach((worker, i) => {
+            const isIdle = this.workersAvail.indexOf(worker) !== -1;
+            let workOrIdle;
+            let workerUrl = '';
+            if (isIdle) {
+                workOrIdle = 'IDLE';
+            } else {
+                workOrIdle = 'WORK';
+                if (worker.activeTarget) {
+                    workerUrl = worker.activeTarget.getUrl() || 'UNKNOWN TARGET';
+                } else {
+                    workerUrl = 'NO TARGET (should not be happening)';
+                }
+            }
+            monitordata.push(`#${i} ${workOrIdle} ${workerUrl}`);
+        });
+        for (let i = 0; i < this.workersStarting; i += 1) {
+            monitordata.push(`#${this.workers.length + i} STARTING...`);
+        }
+        return monitordata;
+    }
 }
 exports.default = Cluster;
 Cluster.CONCURRENCY_PAGE = 1; // shares cookies, etc.

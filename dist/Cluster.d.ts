@@ -32,6 +32,7 @@ export default class Cluster<JobData = any, ReturnData = any> extends EventEmitt
     static CONCURRENCY_PAGE: number;
     static CONCURRENCY_CONTEXT: number;
     static CONCURRENCY_BROWSER: number;
+    public monitorData;
     private options;
     private perBrowserOptions;
     private workers;
@@ -75,5 +76,6 @@ export default class Cluster<JobData = any, ReturnData = any> extends EventEmitt
     waitForOne(): Promise<JobData>;
     close(): Promise<void>;
     private monitor;
+    getMonitorData(): String[];
 }
 export {};
