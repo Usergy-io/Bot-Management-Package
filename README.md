@@ -1,2 +1,2 @@
 # Puppeteer Cluster
-Helper Library pt Unit Bot.
+Helper Library pentru Unit Bot.
