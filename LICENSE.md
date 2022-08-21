@@ -1,2 +1,2 @@
 
-Copyright (C) 2022 Teoslayer
+Copyright (C) 2022 Usergy

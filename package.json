@@ -1,0 +1,38 @@
+{
+  "name": "bot-management-package",
+  "version": "0.1.0",
+  "description": "Cluster management for puppeteer",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "dev": "tsc --watch"
+  },
+  "author": "Teodor Calin",
+  "keywords": [
+    "puppeteer",
+    "cluster",
+    "pool"
+  ],
+  "dependencies": {
+    "debug": "^4.3.3"
+  },
+  "peerDependencies": {
+    "puppeteer": ">=1.5.0"
+  },
+  "devDependencies": {
+    "@types/debug": "^4.1.7",
+    "@types/jest": "^27.4.0",
+    "@types/node": "^16.11.21",
+    "coveralls": "^3.1.1",
+    "express": "^4.17.2",
+    "jest": "^27.4.7",
+    "puppeteer": "^13.1.1",
+    "puppeteer-core": "^13.1.1",
+    "tree-kill": "^1.2.2",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5"
+  }
+}
