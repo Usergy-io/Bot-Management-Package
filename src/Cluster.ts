@@ -41,7 +41,8 @@ const DEFAULT_OPTIONS: ClusterOptions = {
     maxConcurrency: 1,
     workerCreationDelay: 0,
     puppeteerOptions: {
-        // headless: false, // just for testing...
+        args: ['--no-sandbox', "--disable-accelerated-2d-canvas","--disable-gpu"],
+        headless: true,   
     },
     perBrowserOptions: undefined,
     monitor: false,
