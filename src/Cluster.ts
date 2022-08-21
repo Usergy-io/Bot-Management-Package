@@ -101,7 +101,7 @@ export default class Cluster<JobData = any, ReturnData = any> extends EventEmitt
     private duplicateCheckUrls: Set<string> = new Set();
     private lastDomainAccesses: Map<string, number> = new Map();
 
-    private systemMonitor: SystemMonitor = new SystemMonitor();
+    public systemMonitor: SystemMonitor = new SystemMonitor();
 
     private checkForWorkInterval: NodeJS.Timer | null = null;
 

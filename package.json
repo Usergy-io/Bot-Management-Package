@@ -11,6 +11,10 @@
     "dev": "tsc --watch"
   },
   "author": "Teodor Calin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Usergy-io/Bot-Management-Package.git"
+  },
   "keywords": [
     "puppeteer",
     "cluster",
